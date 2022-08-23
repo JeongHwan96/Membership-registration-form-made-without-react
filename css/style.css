@@ -1,0 +1,136 @@
+@charset "UTF-8";
+@import url('./fonts.css');
+@import url('./reset.css');
+
+#wrap {width: 100%;}
+/* 팝업창(모달창) */
+/* z-index 는 포지션 속성을 사용해야만 지정가능하다 */
+
+#popup {z-index:1;position:relative;width:100%;height:42px;background:#5f0080;}
+#popup a {display:block;width:100%;max-width:1050px;margin:0 auto;}
+#popup a .container {width:100%;display: flex;}
+#popup a .container h1 {color:#fff;margin:auto;width:100%;text-align: center;padding:0 0 0 42px;font-family: 'Noto Sans KR';}
+#popup a .container h1 strong {font-weight:700;vertical-align:top;font-size:16px;}
+#popup a .container span {margin:auto 0 auto auto;width:42px;height:42px;background: url(../img/ico_close_fff_84x84.webp) no-repeat 50% 50%;background-size:42px 42px;}
+
+
+
+
+#wrap #formSection {z-index:1;position:relative;width: 100%;}
+#wrap #formSection .container {width:100%;max-width:640px;margin:0 auto;}
+#wrap #formSection .container .content {width:100%;}
+
+/* 타이틀 */
+#wrap #formSection .container .content h2 {text-align:center;font-size:28px;color:#222;padding:60px 0 30px 0;}
+#wrap #formSection .container .content .sub-title {width:100%;text-align:right;border-bottom:1px solid #000;padding:0 0 10px 0;}
+#wrap #formSection .container .content .sub-title span {font-size:11px;}
+#wrap #formSection .container .content .sub-title span i {color:#ee6a7b;}
+
+/* 폼디자인 */
+#wrap #formSection .container .content #memberForm {width:100%;}
+#wrap #formSection .container .content #memberForm > ul {width:100%;}
+#wrap #formSection .container .content #memberForm > ul > li {width:100%;padding:10px 20px;display:flex;}
+/* 왼쪽 항목 */
+#wrap #formSection .container .content #memberForm ul li .left-box {width:139px;height:48px;display:flex;align-items:center;justify-content: flex-start;}
+#wrap #formSection .container .content #memberForm ul li .left-box span {font-size:14px;font-weight:500;color:#333;user-select: none;}
+#wrap #formSection .container .content #memberForm ul li .left-box span i {color:#ee6a7b;display: inline-block;margin:-9px 0 0 1px;}
+/* 오른쪽 입력상자 */
+#wrap #formSection .container .content #memberForm ul li .right-box {width:461px;padding:0 130px 0 0;position:relative;}
+/* 입력상자 공통 스타일 */
+#wrap #formSection .container .content #memberForm ul li .right-box input {width:100%;height:48px;border:1px solid #ccc;padding:0 15px;font-size:16px;color:#333;border-radius:3px;background:transparent;transition: all .6s;outline-offset:-1px;outline:1px solid transparent;}
+#wrap #formSection .container .content #memberForm ul li .right-box input::placeholder {font-size:16px;color:#aaa;font-weight:200;}
+#wrap #formSection .container .content #memberForm ul li .right-box input:focus {outline:1px solid #000;}
+
+/* error 메시지 */
+#wrap #formSection .container .content #memberForm ul li .right-box p {margin:-5px 0 0 0;display:none;}
+#wrap #formSection .container .content #memberForm ul li .right-box p.error {color:rgb(240, 63, 64);display:block;}
+
+/* 주소2 */
+#wrap #formSection .container .content #memberForm ul li .right-box input#address2 {margin:10px 0 0 0;}
+
+/* 주소1, 주소2 */
+#wrap #formSection .container .content #memberForm ul li .right-box input#address1.addr {display:none;}
+#wrap #formSection .container .content #memberForm ul li .right-box input#address2.addr {display:none;}
+
+/* 샛별배송 */
+#wrap #formSection .container .content #memberForm ul li .right-box p.start {color: #5f0080;font-weight: 600;font-size:12px;}
+#wrap #formSection .container .content #memberForm ul li .right-box p {font-size:12px;}
+
+
+/* 오른쪽박스 */
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn {position: absolute;top:1px;right:0;width:120px;height:46px;border:1px solid #5f0080;color:#5f0080;font-size:14px;border-radius:3px;cursor:pointer;background:#fff;}
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn.off {border:1px solid #ccc;color:#ccc;cursor:default;}
+
+/* 주소검색버튼 */
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn.addr {position:relative;top:0;left:0;width:100%;height:48px;}
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn i {margin:-3px 5px 0 0;}
+
+/* 휴대폰 인증 && 버튼 */
+#wrap #formSection .container .content #memberForm ul li .right-box #hp2 {margin:10px 0 0 0;display:none;}
+#wrap #formSection .container .content #memberForm ul li .right-box #hp2.on {display:block;}
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn.hp2-btn {top:59px;display:none;}
+#wrap #formSection .container .content #memberForm ul li .right-box .right-btn.hp2-btn.on {display:block;}
+
+/* 카운트 타이머 countTimer */
+#wrap #formSection .container .content #memberForm ul li .right-box #countTimer {position:absolute;bottom:15px;right:150px;z-index:2;display:none;}
+#wrap #formSection .container .content #memberForm ul li .right-box #countTimer.on {display:block;}
+#wrap #formSection .container .content #memberForm ul li .right-box #countTimer span {color:#bb3333;font-size:14px;font-weight:600;}
+
+
+
+/* 라디오버튼 UIUX */
+/* 성별 */
+#wrap #formSection .container .content #memberForm ul li .right-box.radio-box {display:flex;justify-content:space-between;align-items:center;height:48px;;}
+#wrap #formSection .container .content #memberForm ul li .right-box.radio-box label {font-size:15px;user-select: none;}
+#wrap #formSection .container .content #memberForm ul li .right-box.radio-box label input[type='radio'] {width:23px;height:23px;margin:0 5px 0 0 ;border:1px solid #999;appearance:none;border-radius:50%;padding:0;transition:all 0s;}
+#wrap #formSection .container .content #memberForm ul li .right-box.radio-box label input[type='radio']:checked {border:6px solid #5f0080;}
+
+/* 생년월일 */
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box {width:100%;height:48px;border:1px solid #ccc;border-radius:3px;}
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul {text-align: center;display: flex;padding:0 10px;}
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li:nth-child(odd)  {width:30%;} /* 홀수칸(1,3,5) 날짜입력상자 */
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li:nth-child(even) {width:5%;} /* 짝수칸(2,4)  장식 / */
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li input[type='text'] {border:0;transition: none;text-align: center;}
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li input[type='text']:focus {outline:0;}
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li input[type='text']::placeholder {text-align: center;color:#aaa;}
+#wrap #formSection .container .content #memberForm ul li .right-box .birth-box ul li i {height:48px;display: flex;align-items: center;justify-content: center;color:#aaa;}
+
+/* 추가입력 사항 */
+#wrap #formSection .container .content #memberForm ul li .right-box p {font-size:12px;color:#666;line-height: 130%;padding:15px 0 0 0;}
+
+/* 가로줄 */
+#wrap #formSection .container .content #memberForm ul li hr {background:#333;width:100%;height:1px;border:0;}
+#wrap #formSection .container .content #memberForm ul li hr.end-line {background-color:#ddd;}
+
+/* 이용약관동의 체크박스 */
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box {padding:0;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div {padding:10px 0;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div label {user-select: none;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div p {padding:5px 0 5px 36px;font-size:12px;letter-spacing:-1px;user-select: none;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div label input[type='checkbox'] {width:24px;height:24px;appearance:none;background:url(../img/check_off.svg) no-repeat 50% 50%;border-radius:50%;padding:0;background-size:24px 24px;transition:none;margin:0 8px 0 0;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div label input[type='checkbox']:checked {background-image:url(../img/check_on.svg);}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div label input[type='checkbox']:focus {outline:0;}
+
+/* sns & email */
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div.sns-email-box div {padding:15px 0;display: flex;justify-content:space-around;width:50%;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div.sns-email-box div label {user-select: none;}
+#wrap #formSection .container .content #memberForm ul li .right-box.check-box > div.sns-email-box p {margin:0 0 0 60px;padding:0 0 0 12px;color:#5f0080;background: url(../img/ico_sub_dot.svg) no-repeat 0 50%;}
+
+/* 가입하기 버튼 */
+#wrap #formSection .container .content #memberForm ul li button[type='submit'] {width:240px;height:56px;background: #5f0080;color:#fff;font-size:14px;border:0;border-radius:3px;font-weight:600;margin:0 auto;font-family: 'Noto Sans KR';cursor: pointer;}
+
+
+/* 모달창(팝업창) */
+#wrap .modal {z-index:3; width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(0,0,0, .3);display:none;}
+#wrap .modal .wrap {width:100%;height:100%;display:flex;}
+#wrap .modal .wrap .container {width:400px;height:200px;background:#fff;margin:auto;border-radius: 10px;overflow:hidden;}
+#wrap .modal .wrap .container .content {height:150px;width:100%;}
+#wrap .modal .wrap .container .content .gap {padding:20px;height:100%;width:100%;display:flex;}
+#wrap .modal .wrap .container .content .gap .modal-msg {margin:auto;font-size:16px;font-weight:500;color:#555;user-select:none;line-height:140%;;text-align:center;}
+
+#wrap .modal .wrap .container .button-box {height:50px;border-top:1px solid #eee;}
+#wrap .modal .wrap .container .button-box button {height:100%;width:100%;background:#fff;border:0;cursor:pointer;font-size:16px;font-weight:600;color:#5f0080;}
+
+
+
+
