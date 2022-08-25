@@ -7,7 +7,8 @@
         memberGaib(){
             let num = 0;   // 난수 변수 : 전화번호 인증번호 발송
             let setId = 0; // 전화번호 인증 3분 카운터 타이머 변수
-            
+            let genderVal = ''; //성별 값을 저장
+
             //1. 아이디 : 6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합
             //이벤트 : 키업 keyup 
             $('#id').on({
@@ -225,9 +226,10 @@
             function timerCount(){
                 let m = 2;
                 let s = 59;         
-
+                
+                clearInterval( setId ); // 2번 이상 호출시 타이머 정지
                 // 1초에 한번씩 타이머가 카운트
-                setId = setInterval(function(){            
+                setId = setInterval(function(){         
                     s--; //s=s-1; 
                     if(s<=0){ //이하
                         s=59;
@@ -247,7 +249,7 @@
                     // 초가 10미만이면 1자리이니까 2자리로 맞춘다.
                     ///2:00 2:01, 2:07 ... 2:09 1:10
                     $('.seconds').text( s<10 ? `0${s}` : s );
-                }, 300);
+                }, 1000);
             }
 
 
@@ -338,34 +340,143 @@
 
                     if( $(this).find('span').text()==='주소검색' ){
                         $(this).removeClass('addr');
-                        $('.addr').val('');
-                        $('#address1').removeClass('addr');
-                        
-                        $('#address2').removeClass('addr');
+                        $('.addr').val(''); //입력상자에 내용 주소 삭제
+                        $('#address1, #address2').removeClass('addr');
                         $(this).find('span').text('재겸색');
                         //주소검색 API 함수 가져와서 실행하기
-                        daumAddress();
-                        
+                        daumAddress();                        
                     }
                     else {
-                        $(this).addClass('addr');
-                        $('#address1').addClass('addr');
-                        $('#address2').addClass('addr');
-                        $(this).find('span').text('주소검색');
+                        $('#address1, #address2').val('');     
+                        $('.address').find('p').removeClass('addr-p');
+                        daumAddress();                      
                     }
-                    
                 }
             });
 
+
             // 주소검색 API
-            const daumAddress = () => {
+            function daumAddress(){
                 new daum.Postcode({
                     oncomplete: function(data) {
-                        console.log(data.address)
-                        $('#address1').val(` ${data.address}, ${data.zonecode}`);
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                        $('#address1').val( `${data.zonecode}, ${data.address}` );
+                        $('.address').find('p').addClass('addr-p');
+                        // 조회(검색)
+                        // 다음시간에
+                        // 서울 경기 
+
+                        //indexOf()  찾기
+                        //search()   찾기
+                        //indexOf('서울')  -1 //찾지 못한경우
+                        //search('서울')   -1 //찾지 못한경우
+                        //indexOf('서울')  0 //찾았다 글자 시작위치 첫번째
+                        //search('서울')   0 //찾았다 글자 시작위치 첫번째
+                        // let txt = '새우 꽃게 복숭아 서울 대구 부산';
+
+                        //찾으면 0이상의 숫자가 글자위치의 자릿수 이므로 >= 라고 표현한다.
+                        //못찾으면 -1
+                        // console.log(`indexOf('서울') `, txt.indexOf('서울') ); 
+                        // console.log(`search('서울')  `, txt.search('서울') );
+
+                        //주문싯점 시간에 따라 배송 방법이 달라진다.
+                        //우리는 주소검색을 하는 싯점을 상품을 구매하는 싯점으로 하겠다.
+                        //수도권(서울+경기) + 충청지역은 밤 11이전에 주문시 샛별배송 아니면 낮배송 
+                        //대구지역은 밤 8이전에 주문시 샛별배송 아니면 낮배송 
+                        //부산울산은 밤 6이전에 주문시 샛별배송 아니면 낮배송 
+
+                        // let newDate = new Date();
+                        let nowH = new Date().getHours(); //24 시간제
+                        // console.log( '현재 시(Hourse) ',  newDate );
+                        // console.log( '현재 시(Hourse) ', nowH );
+
+                        if( nowH < 23 && (data.address.indexOf('서울')>=0 || data.address.indexOf('인천')>=0 || data.address.indexOf('경기')>=0 || data.address.indexOf('충청')>=0)  ){
+                            $('.star').text('샛별배송');
+                        }
+                        else if( nowH < 20 && data.address.indexOf('대구')>=0 ){
+                            $('.star').text('샛별배송');
+                        }
+                        else if( nowH < 18 && (data.address.indexOf('부산')>=0 || data.address.indexOf('울산')>=0) ){
+                            $('.star').text('샛별배송');
+                        }
+                        else {
+                            $('.star').text('낮배송');
+                        }
                     }
-                }).open();
+                }).open();            
             }
+
+            // 성별
+            $('.gender-btn').on({
+                change: function(){
+                    genderVal = $(this).val();
+                }
+            });
+
+
+            // 생년
+            $('#year').on({
+                keyup: function(){
+                    const regExp1 = /[^0-9]/g;
+                    const regExp2 = /[0-9]{4}/g;
+                    const nowYear = new Date().getFullYear(); //년도 4자리
+
+                    //미래조건
+                    //14세미만조건  (2022-14) = 2008 더 크면 
+                    
+                    // 입력과 동시에 숫자를 제외하는 모든건 삭제
+                    $('#year').val( $('#year').val().replace(regExp1,'') ); //숫자가 아니면 삭제
+                    
+                    if( $('#year').val() === '' ){
+                        $('.birth-text').removeClass('error').text('');
+                    }
+                    else {
+
+                        if( regExp2.test($('#year').val())===false ){
+                            $('.birth-text').addClass('error').text('태어난 년도 4자리를 정확하게 입력해주세요.');
+                        }
+                        //숫자와 숫자형문자열 비교 안된다. 
+                        else if( Number($('#year').val()) > nowYear ) {
+                            $('.birth-text').addClass('error').text('생년월일이 미래로 입력 되었습니다.');
+                        }
+                        //만 14세
+                        else if( Number($('#year').val()) >= (nowYear-14) ) {
+                            $('.birth-text').addClass('error').text('만 14세 미만은 가입이 불가합니다.');
+                        }
+                        else {
+                            
+                            if( (Number($('#month').val()) < 1 || Number($('#month').val()) > 12) ||  $('#month').val()==='' ){
+                                $('.birth-text').addClass('error').text('태어난 월을 정확하게 입력해주세요.');  
+                            }
+                            else{
+                                $('.birth-text').removeClass('error').text('');  
+                            }  
+                        }
+                    }
+
+                }
+            })
+
+            // 생일
+            $('#month').on({
+                keyup: function(){
+                    const regExp1 = /[^0-9]/g;
+                    const regExp2 = /[0-9]{1,2}/g;
+                    const nowYear = new Date().getFullYear(); //년도 4자리
+        
+                    //미래조건
+                    //14세미만조건  (2022-14) = 2008 더 크면 
+                    
+                    // 입력과 동시에 숫자를 제외하는 모든건 삭제
+                    $('#year').val( $('#year').val().replace(regExp1,'') ); //숫자가 아니면 삭제
+        
+                }
+            })
+            
+            
+
+
 
         }
     }

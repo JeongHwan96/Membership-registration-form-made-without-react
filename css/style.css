@@ -37,7 +37,7 @@
 /* 오른쪽 입력상자 */
 #wrap #formSection .container .content #memberForm ul li .right-box {width:461px;padding:0 130px 0 0;position:relative;}
 /* 입력상자 공통 스타일 */
-#wrap #formSection .container .content #memberForm ul li .right-box input {width:100%;height:48px;border:1px solid #ccc;padding:0 15px;font-size:16px;color:#333;border-radius:3px;background:transparent;transition: all .6s;outline-offset:-1px;outline:1px solid transparent;}
+#wrap #formSection .container .content #memberForm ul li .right-box input {width:100%;height:48px;border:1px solid #ccc;padding:0 15px;font-size:16px;color:#333;border-radius:3px;background:transparent;transition: all .6s;outline-offset:-1px;outline:1px solid transparent;}}
 #wrap #formSection .container .content #memberForm ul li .right-box input::placeholder {font-size:16px;color:#aaa;font-weight:200;}
 #wrap #formSection .container .content #memberForm ul li .right-box input:focus {outline:1px solid #000;}
 
@@ -53,8 +53,8 @@
 #wrap #formSection .container .content #memberForm ul li .right-box input#address2.addr {display:none;}
 
 /* 샛별배송 */
-#wrap #formSection .container .content #memberForm ul li .right-box p.start {color: #5f0080;font-weight: 600;font-size:12px;}
-#wrap #formSection .container .content #memberForm ul li .right-box p {font-size:12px;}
+#wrap #formSection .container .content #memberForm ul li .right-box p.addr-p.star {color: #5f0080;font-weight: 600;font-size:12px;display:block;}
+#wrap #formSection .container .content #memberForm ul li .right-box p.addr-p {font-size:12px;display:block;}
 
 
 /* 오른쪽박스 */
