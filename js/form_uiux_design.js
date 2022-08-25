@@ -419,62 +419,67 @@
             $('#year').on({
                 keyup: function(){
                     const regExp1 = /[^0-9]/g;
-                    const regExp2 = /[0-9]{4}/g;
-                    const nowYear = new Date().getFullYear(); //년도 4자리
-
-                    //미래조건
-                    //14세미만조건  (2022-14) = 2008 더 크면 
-                    
-                    // 입력과 동시에 숫자를 제외하는 모든건 삭제
                     $('#year').val( $('#year').val().replace(regExp1,'') ); //숫자가 아니면 삭제
-                    
-                    if( $('#year').val() === '' ){
-                        $('.birth-text').removeClass('error').text('');
-                    }
-                    else {
-
-                        if( regExp2.test($('#year').val())===false ){
-                            $('.birth-text').addClass('error').text('태어난 년도 4자리를 정확하게 입력해주세요.');
-                        }
-                        //숫자와 숫자형문자열 비교 안된다. 
-                        else if( Number($('#year').val()) > nowYear ) {
-                            $('.birth-text').addClass('error').text('생년월일이 미래로 입력 되었습니다.');
-                        }
-                        //만 14세
-                        else if( Number($('#year').val()) >= (nowYear-14) ) {
-                            $('.birth-text').addClass('error').text('만 14세 미만은 가입이 불가합니다.');
-                        }
-                        else {
-                            
-                            if( (Number($('#month').val()) < 1 || Number($('#month').val()) > 12) ||  $('#month').val()==='' ){
-                                $('.birth-text').addClass('error').text('태어난 월을 정확하게 입력해주세요.');  
-                            }
-                            else{
-                                $('.birth-text').removeClass('error').text('');  
-                            }  
-                        }
-                    }
-
                 }
             })
 
-            // 생일
+            // 생월
             $('#month').on({
                 keyup: function(){
-                    const regExp1 = /[^0-9]/g;
-                    const regExp2 = /[0-9]{1,2}/g;
-                    const nowYear = new Date().getFullYear(); //년도 4자리
-        
-                    //미래조건
-                    //14세미만조건  (2022-14) = 2008 더 크면 
-                    
-                    // 입력과 동시에 숫자를 제외하는 모든건 삭제
-                    $('#year').val( $('#year').val().replace(regExp1,'') ); //숫자가 아니면 삭제
-        
+                    const regExp1 = /[^0-9]/g;                    
+                    $('#month').val( $('#month').val().replace(regExp1,'') ); //숫자가 아니면 삭제        
+                }
+            })
+            
+            // 생일
+            $('#date').on({
+                keyup: function(){
+                    const regExp1 = /[^0-9]/g;                      
+                    $('#date').val( $('#date').val().replace(regExp1,'') ); //숫자가 아니면 삭제
+    
                 }
             })
             
             
+            function birthCheck(){
+
+                //생년월일 모든 조건 
+                const regExpYear = /[0-9]{4}/g; //생년
+                const regExpMonth = /[0-9]{1,2}/g; //생월
+                const regExpDate = /[0-9]{4}/g; //생일
+
+                const nowYear = new Date().getFullYear(); //년도 4자리
+
+                
+                if( $('#year').val() === '' ){
+                    $('.birth-text').removeClass('error').text('');
+                }
+                else {
+
+                    if( regExp2.test($('#year').val())===false ){
+                        $('.birth-text').addClass('error').text('태어난 년도 4자리를 정확하게 입력해주세요.');
+                    }
+                    //숫자와 숫자형문자열 비교 안된다. 
+                    else if( Number($('#year').val()) > nowYear ) {
+                        $('.birth-text').addClass('error').text('생년월일이 미래로 입력 되었습니다.');
+                    }
+                    //만 14세
+                    else if( Number($('#year').val()) >= (nowYear-14) ) {
+                        $('.birth-text').addClass('error').text('만 14세 미만은 가입이 불가합니다.');
+                    }
+                    else {
+                        
+                        if( (Number($('#month').val()) < 1 || Number($('#month').val()) > 12) ||  $('#month').val()==='' ){
+                            $('.birth-text').addClass('error').text('태어난 월을 정확하게 입력해주세요.');  
+                        }
+                        else{
+                            $('.birth-text').removeClass('error').text('');  
+                        }  
+                    }
+                }
+
+            }
+
 
 
 
