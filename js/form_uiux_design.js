@@ -444,9 +444,9 @@
             function birthCheck(){
 
                 //생년월일 모든 조건 
-                const regExpYear = /[0-9]{4}/g; //생년
-                const regExpMonth = /[0-9]{1,2}/g; //생월
-                const regExpDate = /[0-9]{4}/g; //생일
+                const regExpYear = //g; //생년 19 00 ~ 2022
+                const regExpMonth = /[0-9]{1,}/g; //생월 1~9 | 10~12
+                const regExpDate = /[0-9]{1,}/g; //생일 1~9 | 10 ~ 19 | 20~29 | 30 ~ 31 
 
                 const nowYear = new Date().getFullYear(); //년도 4자리
 
