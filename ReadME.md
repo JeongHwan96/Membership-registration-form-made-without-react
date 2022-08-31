@@ -28,15 +28,22 @@ Vanilla JS를 사용하여 만든 회원가입 폼 입니다  <br> 현재까지 
 - 감사합니다~❤️❤️
 
 ## Simple Description ✨
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/76175940/186162249-d8f67333-9bee-4412-a0f9-204c7cb04d41.gif">
   </p>
   
 ## Develop History 📜
 
+2022-08-30
+
+- 생년월일 정규표현식 기능 적용 완료
+- 추가입력 사항 기능 구현 완료
+- 이용약관동의 체크박스 기능 구현 완료
+
 2022-08-25
 
--생년월일 정규표현식 기능 적용 
+-생년월일 정규표현식 기능 적용
 
 2022-08-23
 
@@ -49,18 +56,18 @@ Vanilla JS를 사용하여 만든 회원가입 폼 입니다  <br> 현재까지 
 
 //비밀번호<br><br>
 $('#pw1').on({<br>
-                keyup: function(){<br>
-                    const regExp1 = /.{10,}/g;
-                    const regExp2 = /((?=.*[A-Za-z])+((?=.*[0-9])+|(?=.*[\!\@\#\$\%\^\&\*\_\-])+)+)+[^\s][A-Za-z0-9\!\@\#\$\%\^\&\*\_\-]/g;
-                    const regExp3 = /(.)\1\1/g; //연속3자이면 true 이면 오류, 아니고 false 이면 정상
-                   
+keyup: function(){<br>
+const regExp1 = /.{10,}/g;
+const regExp2 = /((?=._[A-Za-z])+((?=._[0-9])+|(?=.\*[\!\@\#\$\%\^\&\*\_\-])+)+)+[^\s][A-Za-z0-9\!\@\#\$\%\^\&\*\_\-]/g;
+const regExp3 = /(.)\1\1/g; //연속3자이면 true 이면 오류, 아니고 false 이면 정상
+
                     //1. 10자이상이 아니면
                     if( regExp1.test($(this).val())===false  ){
                         $('.guid-pw1').text('최소 10자 이상 입력');
                         $('.guid-pw1').addClass('error');
                     }
                     else{
-                        
+
                         //2. 영문(필수) + (숫자 또는 특수문자)필수 (공백 제외)만 허용하며, 2개 이상 조합
                         if( regExp2.test($(this).val())===false  ){
                             $('.guid-pw1').text('영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합');
@@ -88,7 +95,7 @@ $('#pw1').on({<br>
                     }
                 }
             });<br><br>
-            
+
             //이름
              $('#irum').on({<br>
                 keyup: function(){<br>
@@ -108,12 +115,12 @@ $('#pw1').on({<br>
 
 - 아이디 정규표현식 작업 완료
 
-   $('#id').on({<br>
+  $('#id').on({<br>
                 keyup: function(e){
-                    const regExp1 = /[`~!@#$%\^&*()\-_=+\\\|\{\}\[\]'";:\/?.>,<]/g;  //특수문자는 자동으로 삭제<br>
-                    const regExp2 = /.{6,16}/g;  //6자이상<br>
-                    const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*[A-Za-z0-9]/g; //영문 또는 영문,숫자조합<br>
-                    
+                    const regExp1 = /[`~!@#$%\^&_()\-\_=+\\\|\{\}\[\]'";:\/?.>,<]/g; //특수문자는 자동으로 삭제<br>
+  const regExp2 = /.{6,16}/g; //6자이상<br>
+  const regExp3 = /(?=._[A-Za-z])+(?=._[0-9])_[A-Za-z0-9]/g; //영문 또는 영문,숫자조합<br>
+
                     // 정규표현식.test(문자열); true 또는 false 6자이상, 영문혹은 영문숫자<br>
                     // 문자열.replace(정규표현식, '')  //특수문자는 삭제<br>
                     if( regExp1.test($('#id').val()) === true  ){ //특수문자이면<br>

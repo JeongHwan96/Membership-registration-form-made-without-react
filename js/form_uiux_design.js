@@ -420,6 +420,16 @@
                 keyup: function(){
                     const regExp1 = /[^0-9]/g;
                     $('#year').val( $('#year').val().replace(regExp1,'') ); //숫자가 아니면 삭제
+                   
+                    //생년이 비어있으면 메시지 삭제
+                    if( $('#year').val() === '' ){
+                        $('.birth-text').removeClass('error').text('');
+                        return;
+                    }
+                    
+                    //생년월일 유효성 체크 함수
+                    birthCheck();
+
                 }
             })
 
@@ -428,6 +438,15 @@
                 keyup: function(){
                     const regExp1 = /[^0-9]/g;                    
                     $('#month').val( $('#month').val().replace(regExp1,'') ); //숫자가 아니면 삭제        
+                    
+                    //생월이 비어있으면 메시지 삭제
+                    if( $('#month').val() === '' ){
+                        $('.birth-text').removeClass('error').text('');
+                        return;
+                    }
+
+                    //생년월일 유효성 체크 함수
+                    birthCheck();
                 }
             })
             
@@ -436,54 +455,222 @@
                 keyup: function(){
                     const regExp1 = /[^0-9]/g;                      
                     $('#date').val( $('#date').val().replace(regExp1,'') ); //숫자가 아니면 삭제
-    
+                    
+                    //생월이 비어있으면 메시지 삭제
+                    if( $('#date').val() === '' ){
+                        $('.birth-text').removeClass('error').text('');
+                        return;
+                    }
+                    
+                    //생년월일 유효성 체크 함수
+                    birthCheck();
+
                 }
             })
             
-            
+            //년 > 월 > 일 체크 순서
             function birthCheck(){
 
                 //생년월일 모든 조건 
-                const regExpYear = //g; //생년 19 00 ~ 2022
-                const regExpMonth = /[0-9]{1,}/g; //생월 1~9 | 10~12
-                const regExpDate = /[0-9]{1,}/g; //생일 1~9 | 10 ~ 19 | 20~29 | 30 ~ 31 
+                const regExpYear =  /^(?:19[0-9][0-9]|2[0-9][0-9][0-9])$/g; //생년 1900 ~ 2999
+                const regExpMonth = /^(?:0?[1-9]|1[0-2])$/g; //생월 01~09 | 10~12
+                const regExpDate =  /^(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])$/g; //생일 01~09 | 10 ~ 19 | 20~29 | 30 ~ 31 
 
                 const nowYear = new Date().getFullYear(); //년도 4자리
 
-                
-                if( $('#year').val() === '' ){
-                    $('.birth-text').removeClass('error').text('');
+                //생년 체크
+                if( regExpYear.test($('#year').val())===false ){
+                    $('.birth-text').addClass('error').text('태어난 년도 4자리를 정확하게 입력해주세요.');
+                }
+                //숫자와 숫자형문자열 비교 안된다. 
+                else if( Number($('#year').val()) > nowYear ) {
+                    $('.birth-text').addClass('error').text('생년월일이 미래로 입력 되었습니다.');
+                }
+                //만 14세
+                else if( Number($('#year').val()) >= (nowYear-14) ) {
+                    $('.birth-text').addClass('error').text('만 14세 미만은 가입이 불가합니다.');
                 }
                 else {
-
-                    if( regExp2.test($('#year').val())===false ){
-                        $('.birth-text').addClass('error').text('태어난 년도 4자리를 정확하게 입력해주세요.');
+                    
+                    //생년이 정상 체크되면
+                    //정상이면 오류메시지 삭제
+                    $('.birth-text').addClass('error').text(''); 
+                     
+                    //생월 체크
+                    // if( (Number($('#month').val()) < 1 || Number($('#month').val()) > 12) ||  $('#month').val()==='' ){
+                    if( regExpMonth.test($('#month').val())===false  ){
+                        $('.birth-text').addClass('error').text('태어난 월을 정확하게 입력해주세요.');  
                     }
-                    //숫자와 숫자형문자열 비교 안된다. 
-                    else if( Number($('#year').val()) > nowYear ) {
-                        $('.birth-text').addClass('error').text('생년월일이 미래로 입력 되었습니다.');
-                    }
-                    //만 14세
-                    else if( Number($('#year').val()) >= (nowYear-14) ) {
-                        $('.birth-text').addClass('error').text('만 14세 미만은 가입이 불가합니다.');
-                    }
-                    else {
+                    else{
                         
-                        if( (Number($('#month').val()) < 1 || Number($('#month').val()) > 12) ||  $('#month').val()==='' ){
-                            $('.birth-text').addClass('error').text('태어난 월을 정확하게 입력해주세요.');  
+                        //생월이 정상 체크되면
+                        //정상이면 오류메시지 삭제
+                        $('.birth-text').removeClass('error').text('');                        
+
+                        //생일 체크
+                        if( regExpDate.test($('#date').val())===false ){
+                            $('.birth-text').addClass('error').text('태어난 일을 정확하게 입력해주세요.'); 
                         }
                         else{
-                            $('.birth-text').removeClass('error').text('');  
-                        }  
-                    }
-                }
 
+                            //생일이 정상 체크되면
+                            //정상이면 오류메시지 삭제
+                            $('.birth-text').addClass('error').text(''); 
+                        }
+
+                    }  
+
+                }
             }
 
+            
+            
+            //추가입력 사항
+            // 클래스 chooga-btn 라디오 버튼을 선택하면
+            // 아래 입력상자에 placeholder 속성(prop ; properties 프로퍼티이스 / attr ; attribute  어트리뷰트)  내용이 바뀐다.
+            // 라디오, 체크박스, 셀렉트박스 : 체인지 이벤트
+            $('.chooga-btn').on({
+                change: function(e){
+
+                    // 이벤트 결과
+                    // console.log( e );
+                    // console.log( e.currentTarget.id );
+                    // console.log( e.currentTarget.value );
+
+                    // console.log( e.originalEvent.target.id );
+                    // console.log( e.originalEvent.target.value );
+
+                    // if( $(this).val()==='추천인 아이디' ){  //추천인 아이디를 선택하면
+                    //     $('#addInputText').attr('placeholder', '추천인 아이디를 입력해주세요.');
+                    // }
+                    // else { //참여 이벤트 명을 선택하면
+                    //     $('#addInputText').attr('placeholder', '참여 이벤트명을 입력해주세요.');
+                    // }
+
+                    $('.chooga-text').show(); //가이드 텍스트
+                    // $('.chooga-text').fadeIn(600);
+                    // $('.chooga-text').slideDown(600);
+
+                    //이벤트로 처리하는 방법
+                    if( e.currentTarget.id === 'addId' ){
+                        $('#addInputText').attr('placeholder', '추천인 아이디를 입력해주세요.');                        
+                    }
+                    else {
+                        $('#addInputText').attr('placeholder', '참여 이벤트명을 입력해주세요.');
+                    }
+
+                }
+            });
 
 
 
-        }
+            // 이용약관동의
+            // 체크박스 이벤트 
+            // 모두 체크 이벤트 구현  
+            // 라디오 체크박스 셀렉트등 속성 변경 지정은 porp 을 많이 사용 권장          
+            $('#chk0').on({
+                change: function(){
+                    // 내가 체크 선택하면 모두 체크 true
+                    // 내가 체크 해제하면 모두 해제 false
+                    // 모두체크박스가 선택이되면 true
+                    // 아니면 false
+                    if( $(this).is(':checked') ){ //true 이면
+                        $('.chk-btn').prop('checked', true);
+                    }
+                    else{
+                        $('.chk-btn').attr('checked', false);
+                    }
+                }
+            })
+
+            //전체 체크박스 7개중 모두 체크되면 전체체크버튼 체크 되게하고,
+            //한개라도 체크 해제하면 전체체크버튼 해제한다.
+            // 7개를 체크버튼을 반복으로 돌려서 체크된 갯수를 카운트하고 
+            // 7개가 되면 체크 아니면 해제
+            let cnt = 0;
+            //제이쿼리 each() 메서든 반드시 function()을 사용 화살표함수 사용 하지말것
+            $('.chk-btn').each(function(index, item){ //0 ~ 6 : 7개
+                $(this).on({
+                    change: function(){
+                        // console.log('현재 선택된 체크박스버튼 번호 : ', index );
+                        // console.log('현재 선택된 체크박스버튼 항목 : ', item );
+                        // console.log('현재 선택된 체크박스버튼 항목.id : ', item.id );
+                        // console.log('현재 선택된 체크박스버튼 항목.name : ', item.name );
+                        // console.log('현재 선택된 체크박스버튼 항목.value : ', item.value );
+
+                        checkAllFn();
+
+                    }
+                });
+            });
+
+            //함수 
+            //
+            function checkAllFn(){
+                //체크할 때 마다 즉시 전체 체크된 갯수를 확인
+                cnt=0;
+                for(let i=0; i<$('.chk-btn').length; i++){
+                    if( $('.chk-btn').eq(i).is(':checked')===true ){
+                        cnt++;                                
+                    }
+                }
+                
+                //console.log('체크된 갯수 ',  cnt );
+                if( cnt === 7 ){ //모두 체크되면
+                    $('#chk0').prop('checked', true);
+                }
+                else { //7개 미만 (모두 체크된 안되면)
+                    $('#chk0').prop('checked', false);
+                }
+            }
+
+            // 체크4, 체크5, 체크6
+            // 4번이 체크되면 5,6 둘다체크된다.
+            $('#chk4').on({
+                change: function(){
+                    if($(this).is(':checked')===true){ //체크되면
+                        // 4번이 체크되면 5,6 둘다체크된다.
+                        $('#chk5, #chk6').prop('checked', true);
+                    }
+                    else{ //체크안되면
+                        $('#chk5, #chk6').prop('checked', false);
+                    }
+                    checkAllFn();
+                }
+            });
+
+            //5번 6번 둘다( and  && ) 체크되면
+            $('#chk5').on({
+                change: function(){
+                  if( $('#chk5').is(':checked')===true &&  $('#chk6').is(':checked')===true  ){
+                    $('#chk4').prop('checked',true);
+                  }  
+                  else{
+                    $('#chk4').prop('checked',false);
+                  }
+
+                  checkAllFn();
+
+                }
+            });
+
+            //5번 6번 둘다( and  && ) 체크되면
+            $('#chk6').on({
+                change: function(){
+                  if( $('#chk5').is(':checked')===true &&  $('#chk6').is(':checked')===true  ){
+                    $('#chk4').prop('checked',true);
+                  }  
+                  else{
+                    $('#chk4').prop('checked',false);
+                  }
+
+                  checkAllFn();
+
+                }
+            });
+
+
+        } //memberGaib end
     }
 
     Kurly.init();
