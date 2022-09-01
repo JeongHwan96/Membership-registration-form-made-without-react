@@ -614,6 +614,16 @@
                         cnt++;                                
                     }
                 }
+
+
+                $(".chk-btn").each(function(i,item){
+                    if( $('.chk-btn').eq(i).is(':checked')===true ){
+                        cnt++;                                
+                    }
+                })
+
+
+
                 
                 //console.log('체크된 갯수 ',  cnt );
                 if( cnt === 7 ){ //모두 체크되면
@@ -668,6 +678,98 @@
 
                 }
             });
+
+            $(".submit-btn").on({
+                click: function(e){
+                    e.preventDefault();
+                if($("#id").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('아이디를 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#pw1").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('비밀번호를 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#pw2").val() !== $("#pw1").val() ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('동일한 비밀번호를 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                 if($("#pw2").val() === "") {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('비밀번호를 입력해주세요'); //모달창으로 제작 오류메시지  
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#irum").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('이름을 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#email").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('이메일을 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#hp").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('휴대폰 번호를 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#hp").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('휴대폰 번호를 입력해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+                if($("#address1").val() === "" ) {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('주소를 검색 해주세요'); //모달창으로 제작 오류메시지  
+                    return;
+                }
+                else if($("#address2").val === "") {
+                    $('.modal').stop().fadeIn(600);
+                    $('.modal-msg').text('세부주소를 입력해주세요'); //모달창으로 제작 오류메시지  
+                }
+                else {
+                    $('.modal').fadeOut(600);
+                    
+                }
+
+                }
+            })
+
 
 
         } //memberGaib end
