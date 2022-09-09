@@ -41,40 +41,39 @@
         },
       });
 
-      //아이디 중복 확인
-      $(".id-btn").on({
-        click: function (e) {
-          const regExp2 = /.{6,16}/g;
-          const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*[A-Za-z0-9]/g;
-          e.preventDefault();
-          if (localStorage.getItem("member.Id") !== $("#id").val()) {
-            isIdOk = true;
-            $(".modal").fadeIn(600); //모달창 보이기
-            $(".modal-msg").html("해당 아이디는 사용가능합니다.");
-            console.log(
-              "session: " + localStorage.getItem("member.Id"),
-              "입력값" + $("#id").val()
-            );
-          }
-          // 공백으로 중복확인 눌렀을때 경고창 띄우기
-          //   else if (regExp2.test($("#id").val()) === false) {
-          //     $(".modal").fadeIn(600); //모달창 보이기
-          //     $(".modal-msg").html("최소 6자 이상 입력해주세요");
-          //   }
-          //숫자로만 입력하고 중복확인 눌렀을때 경고창 띄우기
-          else if (regExp3.test($("#id").val()) === false) {
-            $(".modal").fadeIn(600); //모달창 보이기
-            $(".modal-msg").html("영문 또는 영문,숫자조합 으로 입력해주세요");
-          } else {
-            $(".modal").fadeIn(600); //모달창 보이기
-            $(".modal-msg").html("해당 아이디는 사용중입니다.");
-            console.log(
-              "session: " + localStorage.getItem("member.Id"),
-              "입력값" + $("#id").val()
-            );
-          }
-        },
+        //아이디 중복 확인
+        $('.id-btn').on({
+          click: function(e){
+              e.preventDefault();
+                              
+              const regExp1 = /[`~!@#$%\^&*()\-_=+\\\|\{\}\[\]'";:\/?.>,<]/g; 
+              const regExp2 = /.{6,16}/g;  //6자이상
+              const regExp3 = /(?=.*[A-Za-z])+(?=.*[0-9])*[A-Za-z0-9]/g; 
+              if( regExp1.test($('#id').val()) === true || regExp2.test($('#id').val()) === false || regExp3.test($('#id').val()) === false ){
+                  $('.modal').fadeIn(600);
+                  $('.modal-msg').html('6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합');
+              }
+              else{
+                  for(i=0; i<localStorage.length; i++){
+                    
+                      let idKey = localStorage.key(i);  // key 만 가져오기 아이디만 
+                      if(  idKey===$('#id').val()  ){
+                          isIdOk = false;  //중복된 아이디 있음.
+                          $('.modal-msg').html('이미 등록된 아이디입니다.');
+                          $('.modal').fadeIn(600);
+                          return;  //취소                               
+                      }
+                      else {
+                          $('.modal-msg').html('사용가능한 아이디입니다.');
+                          $('.modal').fadeIn(600);
+                          isIdOk = true;  //중복된 아이디 없음.
+                      }
+                  }            
+              }
+          } 
       });
+
+
 
       //2-1. 비밀번호 : 최소 10자 이상 입력
       //2-1. 비밀번호 : ((?=.*[영문])+((?=.*[숫자])+|(?=.*[특수문자])+)+)(공백 제외)만 허용하며, 2개 이상 조합
@@ -160,38 +159,53 @@
         },
       });
 
+  
+
+      //이메일 중복 확인
       $(".email-btn").on({
         click: function (e) {
-          regExp =
-            /^[A-Z0-9]+([.\-_]?[A-Z0-9]*)*@[A-Z0-9]+([.\-_]?[A-Z0-9]*)*\.[A-Z]{2,3}$/gi;
+          regExp =/^[A-Z0-9]+([.\-_]?[A-Z0-9]*)*@[A-Z0-9]+([.\-_]?[A-Z0-9]*)*\.[A-Z]{2,3}$/gi;
           e.preventDefault();
-          if (sessionStorage.getItem("member.Email") === $("#email").val()) {
-            $(".modal").fadeIn(600);
-            $(".modal-msg").text("해당 이메일은 사용중입니다.");
+          if ( $("#email").val() === "") {
+            $(".modal").fadeIn(600); //모달창 보이기
+            $(".modal-msg").html(`이메일을 입력해주세요`);
+          } 
+          else if(regExp.test($("#email").val()) === false){
+            $(".modal").fadeIn(600); //모달창 보이기
+            $(".modal-msg").html(`이메일 형식에 맞게 입력해주세요`);
+          } 
+          else {
+            if (localStorage.length === 0) {
+              $(".modal").fadeIn(600); //모달창 보이기
+              $(".modal-msg").html(`사용 할 수 있는 이메일 입니다.`);
+              isEmailOk = true
+            }
+            else{ //정상
+              for(i=0; i<localStorage.length; i++){
+                  let obj = JSON.parse( localStorage.getItem(localStorage.key(i)) );
+
+                  if(  obj.Email===$('#email').val()  ){
+                      isIdOk = false;  //중복된 아이디 있음.
+                      $('.modal-msg').html('이미 등록된 이메일입니다.');
+                      $('.modal').fadeIn(600);
+                      return;  //취소                               
+                  }
+                  else {
+                      $('.modal-msg').html('사용가능한 이메일입니다.');
+                      $('.modal').fadeIn(600);
+                      isEmailOk = true;  //중복된 이메일 없음.
+                  }
+              }
+
+             
           }
-          //이메일 입력창을 공백으로 입력하고 중복확인 눌렀을 때 경고창 띄우기
-          else if ($("#email").val() === "") {
-            $(".modal").fadeIn(600);
-            $(".modal-msg").text("이메일을 입력해주세요");
+
+            
           }
         },
       });
 
-      //휴대폰 : 01079425305
-      //휴대폰 : 0103486441
-      //오로지 숫자만 숫자제외는 모두 삭제
-
-      // 010-7942-5305
-      // 010-794-5305
-      // 011-794-5305
-      // 016-794-5305
-      // 017-794-5305
-      // 018-794-5305
-      // 019-794-5305
-      // 더 엄격한 규정의 정규표현식
-      // 가정 : 010, 011, 016, 017, 018, 019
-      //숫자 \digit  소문자 반드시   - \d
-      // \D 숫자가 아닌것 부정 대문자 - \D
+      
       $("#hp").on({
         keyup: function () {
           regExp = /[^0-9]/g;
@@ -334,7 +348,7 @@
             //=== 논리값까지 비교 숫자, 문자형의 숫자 구분
             $(".modal").fadeIn(600); //모달창 보이기
             $(".modal-msg").html("인증에 성공했습니다."); //모달창으로 제작 오류메시지
-
+isPhOk= true
             $("#hp2").val(""); //입력상자 숫자 지우기
             $("#hp2").removeClass("on"); //인증번호 입력상자 숨기기
             $(".hp2-btn").removeClass("on"); //인증번호확인버튼 숨기기
@@ -759,6 +773,38 @@
           } else {
             $(".modal").fadeOut(600);
           }
+
+// 중복체크 버튼 클릭 하였는지 확인
+if( isIdOk === false ){
+  $('.modal').stop().fadeIn(300);   //모달창 보이기
+  $('.modal-msg').html('아이디 중복검사 하세요');
+  return; //전송버튼 취소
+}
+else {
+  $('.modal').stop().fadeOut(300);   //모달창 숨기기
+  $('.modal-msg').html('');
+}
+
+if( isEmailOk === false ){
+  $('.modal').stop().fadeIn(300);   //모달창 보이기
+  $('.modal-msg').html('이메일 중복검사 하세요');
+  return; //전송버튼 취소
+}
+else {
+  $('.modal').stop().fadeOut(300);   //모달창 숨기기
+  $('.modal-msg').html('');
+}
+
+if( isPhOk === false ){
+  $('.modal').stop().fadeIn(300);   //모달창 보이기
+  $('.modal-msg').html('휴대폰 인증을 하세요');
+  return; //전송버튼 취소
+}
+else {
+  $('.modal').stop().fadeOut(300);   //모달창 숨기기
+  $('.modal-msg').html('');
+}
+
           //이용약관 동의
           let cnt = 0;
           let arr = [];
@@ -781,7 +827,7 @@
 
           // sessionStroage 저장
           let member = {
-            ID: $("#id").val(),
+            Id: $("#id").val(),
             Password: $("#pw1").val(),
             Name: $("#irum").val(),
             Email: $("#email").val(),
@@ -794,7 +840,7 @@
             Additional: `${choogaItem} ${$("#addInputText").val()}`,
             Terms: arr,
           };
-          sessionStorage.setItem(member.Name, JSON.stringify(member));
+          localStorage.setItem(member.Id, JSON.stringify(member));
         },
       });
     }, //memberGaib end
